@@ -13,22 +13,31 @@ router.get('/', (req, res) => {
     })
 })
 //show
-router.get('/:slug', (req, res) => {
+router.get('/:id', (req, res) => {
+    const id = req.params.id
+    const sql = `SELECT * FROM movies_db.movies WHERE movies.id = ?`
+
+    connection.query(sql, [id], (err, results) => {
+        if (err) return res.status(500).json({ error: err })
+        console.log(results)
+        if (results.length == 0) return res.status(404).json({ error: '404 not found' })
+        res.json(results)
+    })
 })
 //store
-router.post('/:slug', (req, res) => {
+router.post('/:id', (req, res) => {
 
 })
 //update
-router.put('/:slug', (req, res) => {
+router.put('/:id', (req, res) => {
 
 })
 //partial update
-router.patch('/:slug', (req, res) => {
+router.patch('/:id', (req, res) => {
 
 })
 //delete
-router.delete('/:slug', (req, res) => {
+router.delete('/:id', (req, res) => {
 
 })
 
