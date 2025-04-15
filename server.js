@@ -6,6 +6,8 @@ const notFound = require('./middlewares/error404')
 const errors = require('./middlewares/errors')
 const moviesRouter = require('./routes/movies');
 
+app.use(express.static('./public'))
+
 app.use(cors({
     origin: 'http://localhost:5173'
 }));
@@ -17,6 +19,7 @@ app.listen(port, () => {
 app.get('/', (req, res) => {
     res.send(`welcome to my server!`)
 })
+
 
 //middleware
 app.use('/movies', moviesRouter)

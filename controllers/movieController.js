@@ -18,11 +18,13 @@ function show(req, res) {
     connection.query(sql, [id], (err, results) => {
         if (err) return res.status(500).json({ error: err })
         console.log(results)
-        if (results.length == 0) return res.status(404)
-        res.json({
-            error: "Not Found",
-            message: "Pagina non trovata"
-        });
+        if (results.length == 0) {
+            return res.json({
+                error: "Not Found",
+                message: "elemento non trovato"
+            });
+        }
+
         res.json(results)
     })
 }
