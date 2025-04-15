@@ -2,6 +2,8 @@ const express = require("express");
 const app = express()
 const port = 3000
 const cors = require("cors");
+const notFound = require('./middlewares/error404')
+const errors = require('./middlewares/errors')
 const moviesRouter = require('./routes/movies');
 
 app.use(cors({
@@ -18,5 +20,8 @@ app.get('/', (req, res) => {
 
 //middleware
 app.use('/movies', moviesRouter)
+
+app.use(errors)
+app.use(notFound)
 
 
