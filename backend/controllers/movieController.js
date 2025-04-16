@@ -2,7 +2,7 @@ const connection = require('../data/db')
 
 
 function index(req, res) {
-    const sql = 'SELECT * FROM movies'
+    const sql = 'SELECT movies.id,movies.title,movies.director,movies.genre,movies.release_year,movies.abstract, movies.image, AVG(vote) as average_rating FROM movies LEFT JOIN reviews ON reviews.movie_id = movies.id GROUP BY movies.id;'
 
     connection.query(sql, (err, results) => {
         if (err) return res.status(500).json({ error: err })
