@@ -1,9 +1,11 @@
 const express = require('express')
 const router = express.Router();
 const userController = require("../controllers/userController")
-
+const authorize = require('../middlewares/authorize')
 //index
 router.get('/', userController.index)
+//authorize on mount
+router.get('/auth', authorize, userController.auth)
 //show
 router.get('/:id', userController.show)
 //store

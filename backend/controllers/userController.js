@@ -44,6 +44,12 @@ function store(req, res) {
     });
 }
 
+function auth(req, res) {
+    console.log("auth run!")
+    // req.user contains whatever was in your JWT payload
+    res.json({ username: req.user.username, id: req.user.id });
+}
+
 async function login(req, res) {
     const { email, password } = req.body;
 
@@ -64,7 +70,7 @@ async function login(req, res) {
 
         // User found, now compare the password
         const user = result[0]; // Assuming the first row is the user
-        console.log(user)
+        //console.log(user)
         try {
             const isMatch = await bcrypt.compare(password, user.password_hash);
 
@@ -79,7 +85,7 @@ async function login(req, res) {
                 email: user.email
             };
 
-            const token = jwt.sign(payload, 'your_jwt_secret', { expiresIn: '1h' }); // You should store the secret securely
+            const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }); // You should store the secret securely
 
             // Send token in response
             res.status(200).json({
@@ -92,6 +98,8 @@ async function login(req, res) {
             res.status(500).json({ message: 'Error comparing passwords' });
         }
     });
+
+    console.log("login run!")
 }
 
 function update(req, res) {
@@ -107,6 +115,7 @@ module.exports = {
     index,
     show,
     store,
+    auth,
     login,
     update,
     modify,

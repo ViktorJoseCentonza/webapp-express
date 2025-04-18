@@ -6,7 +6,7 @@ function index(req, res) {
 
     connection.query(sql, (err, results) => {
         if (err) return res.status(500).json({ error: err })
-        console.log(results)
+        //console.log(results)
         res.json(results)
         console.log("index route used!")
     })
@@ -19,7 +19,7 @@ function show(req, res) {
 
     connection.query(sql, [id], (err, results) => {
         if (err) return res.status(500).json({ error: err })
-        console.log(results)
+        //console.log(results)
         if (results.length == 0) {
             return res.json({
                 error: "Not Found",
