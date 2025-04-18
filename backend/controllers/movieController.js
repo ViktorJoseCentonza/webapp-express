@@ -30,6 +30,38 @@ function show(req, res) {
         res.json(results)
     })
 }
+function storeReview(req, res) {
+
+    const movieIdFromParams = req.params.id;
+    const { text, movie_id, name, vote } = req.body;
+
+    // Optional: check consistency between route param and body
+    if (parseInt(movieIdFromParams) !== parseInt(movie_id)) {
+        return res.status(400).json({ message: "Movie ID mismatch" });
+    }
+
+    if (!text || !name || !movie_id) {
+        return res.status(400).json({ message: "Missing review data" });
+    }
+
+    const sql = `
+        INSERT INTO reviews (text, movie_id, name, vote)
+        VALUES (?, ?, ?, ?)
+    `;
+
+    connection.execute(sql, [text, movie_id, name, vote], (err, result) => {
+        if (err) {
+            console.error("❌ Failed to insert review:", err);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+
+        return res.status(201).json({
+            message: "Review stored successfully",
+            reviewId: result.insertId
+        });
+    });
+}
+
 
 function store(req, res) {
 }
@@ -46,6 +78,7 @@ function destroy(req, res) {
 module.exports = {
     index,
     show,
+    storeReview,
     store,
     update,
     modify,

@@ -23,6 +23,7 @@ function authorize(req, res, next) {
             console.log("the token is not valid!")
             return res.status(403).json({ message: 'Invalid or expired token' });
         }
+        console.log("token verified!");
 
         // Store the decoded user info in the request object
         req.user = decoded;
